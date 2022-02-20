@@ -42,8 +42,12 @@ public class CharacterSprite {
 
     public void update() {
         y += yVelocity;
+        x += xVelocity;
         if (y==1700) {
             yVelocity = 0;
+        }
+        if(x==900) {
+            xVelocity = 0;
         }
     }
 }
