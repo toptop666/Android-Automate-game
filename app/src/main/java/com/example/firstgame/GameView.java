@@ -3,15 +3,14 @@ package com.example.firstgame;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
-import androidx.annotation.NonNull;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private MainThread thread;
-    private CharacterSprite characterSprite;
 
     public GameView(Context context) {
         super(context);
@@ -24,9 +23,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
-        characterSprite = new CharacterSprite(BitmapFactory.decodeResource(getResources(), R.drawable.tank));
-        characterSprite.RotateBitmap(90);
-        characterSprite.ScaleBitmap(0.25f, 0.25f);
 
         thread.setRunning(true);
         thread.start();
@@ -52,16 +48,25 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void update() {
-        characterSprite.update();
+
     }
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
         if(canvas != null) {
-            characterSprite.draw(canvas);
+            canvas.drawColor(Color.WHITE);
+            Paint paint = new Paint();
 
+            RegularExpression start = new RegularExpression('0', Types.Elementary);
+            RegularExpression finish = new RegularExpression('1', Types.Elementary);
+            RegularExpression fin = new RegularExpression(start, finish, Types.Chaining);
+            RegularExpression rer = new RegularExpression(fin, finish, Types.Chaining);
+
+            Automate gen = new Automate(rer);
+            gen.drawAutomate(paint, canvas, BitmapFactory.decodeResource(getResources(), R.drawable.arrowhead));
 
         }
+
     }
 }
